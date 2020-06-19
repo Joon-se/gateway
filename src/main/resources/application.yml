@@ -1,0 +1,82 @@
+server:
+  port: 8088
+
+---
+
+spring:
+  profiles: default
+  cloud:
+    gateway:
+      routes:
+        - id: reservation
+          uri: http://localhost:8081
+          predicates:
+            - Path=/reservations/** 
+        - id: process
+          uri: http://localhost:8082
+          predicates:
+            - Path=/processes/** 
+        - id: assign
+          uri: http://localhost:8083
+          predicates:
+            - Path=/assigns/** 
+        - id: reservation
+          uri: http://localhost:8084
+          predicates:
+            - Path=/reservations/** 
+        - id: dashboard
+          uri: http://localhost:8085
+          predicates:
+            - Path= /dashboards/**
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "*"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+
+---
+
+spring:
+  profiles: docker
+  cloud:
+    gateway:
+      routes:
+        - id: reservation
+          uri: http://reservation:8080
+          predicates:
+            - Path=/reservations/** 
+        - id: process
+          uri: http://process:8080
+          predicates:
+            - Path=/processes/** 
+        - id: assign
+          uri: http://assign:8080
+          predicates:
+            - Path=/assigns/** 
+        - id: reservation
+          uri: http://reservation:8080
+          predicates:
+            - Path=/reservations/** 
+        - id: dashboard
+          uri: http://dashboard:8080
+          predicates:
+            - Path= /dashboards/**
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "*"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+server:
+  port: 8080
